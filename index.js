@@ -3,8 +3,8 @@ require('shelljs/global');
 const fs = require('fs')
 const path = require('path')
 
-const OUT = './report'
-const REPORT_SUMMARY = 'summaries.json'
+const OUT = './report/lighthouse'
+const REPORT_SUMMARY = 'summary.json'
 
 execute.OUT = OUT
 module.exports = execute;

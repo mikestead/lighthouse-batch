@@ -15,11 +15,11 @@ Example usage
 
     lighthouse-batch -s https://airhorner.com,https://housing.com
 
-This will spit out the following files under the `/report` folder.
+This will generate the following files under the `/report/lighthouse` folder.
 
     airhorner_com.json // Full results for airhorner.com
     housing_com.json   // Full results from housing.com
-    summaries.json     // Summary of results with scores out of 100  
+    summary.json       // Summary of results with scores out of 100  
 
 All options
 
@@ -31,6 +31,6 @@ All options
       -V, --version          output the version number
       -s, --sites <sites>    a comma delimited list of site urls to analyze with Lighthouse
       -p, --params <params>  extra paramaters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
-      -o, --out [out]        the output folder to place reports, defaults to './report'
+      -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
       -g, --use-global       use a global lighthouse install instead of the dependency version
       -v, --verbose          enable verbose logging
