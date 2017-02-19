@@ -1,10 +1,10 @@
 {
   "name": "lighthouse-batch",
   "version": "1.0.0",
-  "description": "Generate lighthouse reports for a set of websites",
+  "description": "Generate lighthouse reports for one or more websites",
   "main": "index.js",
   "bin": {
-    "lighthouse-batch": "src/run.js"
+    "lighthouse-batch": "run.js"
   },
   "author": "Massive",
   "license": "MIT",
