@@ -1,6 +1,8 @@
 'use strict'
 require('shelljs/global');
 const fs = require('fs')
+const path = require('path')
+
 const OUT = './report'
 const REPORT_SUMMARY = 'summaries.json'
 
@@ -66,7 +68,15 @@ function lighthouseCmd(options) {
       console.warn('Global Lighthouse install not found, falling back to local one')
     }
   }
-  return `node ${__dirname}/node_modules/lighthouse/lighthouse-cli`
+  let cliPath = path.resolve(`${__dirname}/node_modules/lighthouse/lighthouse-cli/index.js`)
+  if (!fs.existsSync(cliPath)) {
+    cliPath = path.resolve(`${__dirname}/../node_modules/lighthouse/lighthouse-cli/index.js`)
+    if (!fs.existsSync(cliPath)) {
+      console.error(`Faild to find Lighthouse CLI, aborting.`)
+      process.exit(1)
+    }
+  }
+  return cliPath
 }
 
 function siteName(site) {
