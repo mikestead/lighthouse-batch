@@ -1,0 +1,16 @@
+{
+  "name": "lighthouse-batch",
+  "version": "1.0.0",
+  "description": "Generate lighthouse reports for a set of websites",
+  "main": "index.js",
+  "bin": {
+    "lighthouse-batch": "src/run.js"
+  },
+  "author": "Massive",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "lighthouse": "^1.5.1",
+    "shelljs": "^0.7.6"
+  }
+}
