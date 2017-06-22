@@ -5,6 +5,8 @@ const path = require('path')
 
 const OUT = './report/lighthouse'
 const REPORT_SUMMARY = 'summary.json'
+const JSON_EXT = '.report.json'
+const HTML_EXT = '.report.html'
 
 execute.OUT = OUT
 module.exports = execute;
@@ -23,10 +25,14 @@ function execute(options) {
   log(`Lighthouse batch run begin for ${count} site${count > 1 ? 's' : ''}`)
 
   const reports = sitesInfo(options).map((site, i) => {
-    const filePath = `${out}/${site.file}`
     const prefix = `${i + 1}/${count}: `
     const htmlOut = options.html ? ' --output html' : ''
-    const cmd = `${site.url} --output json${htmlOut} --output-path ${filePath} ${options.params}`
+    const filePath = `${out}/${site.file}`
+    // if gen'ing html+json reports, ext '.report.json' is added by lighthouse cli automatically,
+    // so here we try and keep the file names consistent by stripping to avoid duplication
+    const outputPath = options.html ? filePath.slice(0, -JSON_EXT.length) : filePath
+
+    const cmd = `${site.url} --output json${htmlOut} --output-path ${outputPath} ${options.params}`
 
     log(`${prefix}Lighthouse analyzing '${site.url}'`)
     log(cmd)
@@ -53,14 +59,13 @@ function sitesInfo(options) {
       url = `https:${url}`
     }
     const name = siteName(url)
-    // if gen'ing html+json reports, report.json is added on automatically,
-    // so here we try and keep the named files consistent
-    const file = options.html ? name : `${name}.report.json` 
-    return {
+    const info = {
       url,
       name,
-      file
+      file: `${name}${JSON_EXT}`
     }
+    if (options.html) info.html = `${name}${HTML_EXT}`
+    return info
   })
 }
 
@@ -93,8 +98,7 @@ function updateSummary(filePath, summary, outcome, options) {
     summary.error = outcome.stderr
     return summary
   }
-  const realFilePath = options.html ? `${filePath}.report.json` : filePath
-  const report = JSON.parse(fs.readFileSync(realFilePath))
+  const report = JSON.parse(fs.readFileSync(filePath))
   summary.score = report.score.toFixed(2)
   return summary
 }
