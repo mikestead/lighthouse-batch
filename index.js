@@ -23,7 +23,6 @@ function execute(options) {
   log(`Lighthouse batch run begin for ${count} site${count > 1 ? 's' : ''}`)
 
   const reports = sitesInfo(options).map((site, i) => {
-    console.log(site)
     const filePath = `${out}/${site.file}`
     const prefix = `${i + 1}/${count}: `
     const htmlOut = options.html ? ' --output html' : ''
@@ -57,7 +56,6 @@ function sitesInfo(options) {
     // if gen'ing html+json reports, report.json is added on automatically,
     // so here we try and keep the named files consistent
     const file = options.html ? name : `${name}.report.json` 
-    console.log('file', file, options.html, name)
     return {
       url,
       name,
