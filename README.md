@@ -5,7 +5,7 @@
 Supports executing [Lighthouse](https://developers.google.com/web/tools/lighthouse) analysis over a number of sites in sequence and
 generating a summary report including all of their scores.
 
-Also writes out the full json report for each site and optionally an html report too.
+Also writes out the full `json` report for each site and optionally an `html` report too.
 
 ## CLI
 
