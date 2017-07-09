@@ -99,8 +99,13 @@ function updateSummary(filePath, summary, outcome, options) {
     return summary
   }
   const report = JSON.parse(fs.readFileSync(filePath))
-  summary.score = report.score.toFixed(2)
+  summary.score = getAverageScore(report)
   return summary
+}
+
+function getAverageScore(report) {
+  const total = report.reportCategories.reduce((sum, cat) => sum + cat.score, 0)
+  return (total / report.reportCategories.length).toFixed(2)
 }
 
 function log(v, msg) {
