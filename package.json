@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-batch",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Generate lighthouse reports for one or more websites",
   "main": "index.js",
   "bin": {
