@@ -1,7 +1,5 @@
 ## Lighthouse Batch Reporter
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/mikestead/lighthouse-batch.svg)](https://greenkeeper.io/)
-
 Supports executing [Lighthouse](https://developers.google.com/web/tools/lighthouse) analysis over a number of sites in sequence and
 generating a summary report including all of their scores. Scores are calculated from the
 average score between PWA, Performance, Accessibility and Best Practice sections.
