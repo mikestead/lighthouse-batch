@@ -2,7 +2,7 @@
 
 Supports executing [Lighthouse](https://developers.google.com/web/tools/lighthouse) analysis over a number of sites in sequence and
 generating a summary report including all of their scores. Scores are calculated from the
-average score between PWA, Performance, Accessibility and Best Practice sections.
+average score between Performance, PWA, Accessibility and Best Practice and SEO sections.
 
 Also writes out the full `json` report for each site and optionally an `html` report too.
 
