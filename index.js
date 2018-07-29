@@ -81,7 +81,7 @@ function lighthouseCmd(options) {
   if (!fs.existsSync(cliPath)) {
     cliPath = path.resolve(`${__dirname}/../lighthouse/lighthouse-cli/index.js`)
     if (!fs.existsSync(cliPath)) {
-      console.error(`Faild to find Lighthouse CLI, aborting.`)
+      console.error(`Failed to find Lighthouse CLI, aborting.`)
       process.exit(1)
     }
   }
@@ -104,8 +104,12 @@ function updateSummary(filePath, summary, outcome, options) {
 }
 
 function getAverageScore(report) {
-  const total = report.reportCategories.reduce((sum, cat) => sum + cat.score, 0)
-  return (total / report.reportCategories.length).toFixed(2)
+  let categories = report.reportCategories // lighthouse v1,2
+  if (report.categories) { // lighthouse v3
+    categories = Object.values(report.categories)
+  }
+  const total = categories.reduce((sum, cat) => sum + cat.score, 0)
+  return (total / categories.length).toFixed(2)
 }
 
 function log(v, msg) {
