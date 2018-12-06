@@ -31,12 +31,10 @@ function execute(options) {
     // if gen'ing html+json reports, ext '.report.json' is added by lighthouse cli automatically,
     // so here we try and keep the file names consistent by stripping to avoid duplication
     const outputPath = options.html ? filePath.slice(0, -JSON_EXT.length) : filePath
-
-    const cmd = `${site.url} --output json${htmlOut} --output-path ${outputPath} ${options.params}`
+    const cmd = `"${site.url}" --output json${htmlOut} --output-path "${outputPath}" ${options.params}`
 
     log(`${prefix}Lighthouse analyzing '${site.url}'`)
     log(cmd)
-
     const outcome = exec(`${lhc} ${cmd}`)
     const summary = updateSummary(filePath, site, outcome, options)
 
