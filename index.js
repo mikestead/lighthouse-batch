@@ -9,7 +9,9 @@ const JSON_EXT = '.report.json'
 const HTML_EXT = '.report.html'
 
 execute.OUT = OUT
-module.exports = execute;
+module.exports = execute
+
+let hasErrored = false
 
 function execute(options) {
   const out = options.out || OUT
@@ -26,15 +28,14 @@ function execute(options) {
 
   const reports = sitesInfo(options).map((site, i) => {
     const prefix = `${i + 1}/${count}: `
-    const htmlOut = options.html ? ' --output html' : ''
-    const filePath = `${out}/${site.file}`
+    const htmlOut = options.html ? ` --report=${out} --filename=${site.html}` : ''
     // if gen'ing html+json reports, ext '.report.json' is added by lighthouse cli automatically,
     // so here we try and keep the file names consistent by stripping to avoid duplication
-    const outputPath = options.html ? filePath.slice(0, -JSON_EXT.length) : filePath
-    const cmd = `"${site.url}" --output json${htmlOut} --output-path "${outputPath}" ${options.params}`
+    const cmd = `"${site.url}" ${htmlOut} ${options.params || ''}`
+    const filePath = `${out}/${site.file}`
 
     log(`${prefix}Lighthouse analyzing '${site.url}'`)
-    log(cmd)
+    log(`${lhc} ${cmd}`)
     const outcome = exec(`${lhc} ${cmd}`)
     const summary = updateSummary(filePath, site, outcome, options)
 
@@ -47,6 +48,8 @@ function execute(options) {
   log(`Lighthouse batch run end`)
   log(`Writing reports summary to ${summaryPath}`)
   fs.writeFileSync(summaryPath, JSON.stringify(reports), 'utf8')
+
+  if (hasErrored) process.exit(1)
 }
 
 function sitesInfo(options) {
@@ -68,22 +71,7 @@ function sitesInfo(options) {
 }
 
 function lighthouseCmd(options) {
-  if (options.useGlobal) {
-    if (exec('lighthouse --version').code === 0) {
-      return 'lighthouse '
-    } else {
-      console.warn('Global Lighthouse install not found, falling back to local one')
-    }
-  }
-  let cliPath = path.resolve(`${__dirname}/node_modules/lighthouse/lighthouse-cli/index.js`)
-  if (!fs.existsSync(cliPath)) {
-    cliPath = path.resolve(`${__dirname}/../lighthouse/lighthouse-cli/index.js`)
-    if (!fs.existsSync(cliPath)) {
-      console.error(`Failed to find Lighthouse CLI, aborting.`)
-      process.exit(1)
-    }
-  }
-  return cliPath
+  return path.resolve(`${__dirname}/node_modules/.bin/lighthouse-ci`)
 }
 
 function siteName(site) {
@@ -92,22 +80,32 @@ function siteName(site) {
 
 function updateSummary(filePath, summary, outcome, options) {
   if (outcome.code !== 0) {
+    hasErrored = true
     summary.score = 0
     summary.error = outcome.stderr
     return summary
   }
-  const report = JSON.parse(fs.readFileSync(filePath))
+  const report = getResults(filePath, outcome.stdout)
   summary.score = getAverageScore(report)
   return summary
 }
 
-function getAverageScore(report) {
-  let categories = report.reportCategories // lighthouse v1,2
-  if (report.categories) { // lighthouse v3
-    categories = Object.values(report.categories)
+function getResults(filePath, output) {
+  const result = {}
+  const re = /([a-z]+): ([0-9]+)/gi
+  let m
+  while (m = re.exec(output)) {
+      const score = +m[2]
+      result[m[1]] = score
   }
-  const total = categories.reduce((sum, cat) => sum + cat.score, 0)
-  return (total / categories.length).toFixed(2)
+  fs.writeFileSync(filePath, JSON.stringify(result));
+  return result
+}
+
+function getAverageScore(report) {
+  const scores = Object.values(report)
+  const total = scores.reduce((sum, score) => sum + score, 0)
+  return (total / scores.length).toFixed(2)
 }
 
 function log(v, msg) {

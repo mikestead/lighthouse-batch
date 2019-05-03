@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^2.9.0",
-    "lighthouse": "^4.2.0",
+    "lighthouse-ci": "^1.6.0",
     "shelljs": "^0.7.6"
   }
 }
