@@ -4,7 +4,7 @@ Supports executing [Lighthouse](https://developers.google.com/web/tools/lighthou
 generating a summary report including all of their scores. Scores are calculated from the
 average score between Performance, PWA, Accessibility and Best Practice and SEO sections.
 
-Also writes out the full `json` report for each site and optionally an `html` report too.
+Also writes out a `json` report summary for each site and optionally an `html` report too.
 
 ## CLI
 
@@ -20,7 +20,7 @@ This will generate the following files under the `/report/lighthouse` folder.
 
     airhorner_com.report.json // Full results for airhorner.com
     housing_com.report.json   // Full results from housing.com
-    summary.json              // Summary of results with scores out of 100  
+    summary.json              // Summary of results with scores out of 100
 
 If you also want html reports include the `--html` option.
 
@@ -39,5 +39,4 @@ All options
       -p, --params <params>  extra paramaters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
       -h, --html             generate an html report alongside the json report
       -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
-      -g, --use-global       use a global lighthouse install instead of the dependency version
       -v, --verbose          enable verbose logging
