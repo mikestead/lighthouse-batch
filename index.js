@@ -83,7 +83,7 @@ function lighthouseCmd(options) {
       process.exit(1)
     }
   }
-  return cliPath
+  return `${cliPath} --chrome-flags="--no-sandbox --headless --disable-gpu"`
 }
 
 function siteName(site) {
