@@ -1,10 +1,13 @@
 ## Lighthouse Batch Reporter
 
-Supports executing [Lighthouse](https://developers.google.com/web/tools/lighthouse) analysis over a number of sites in sequence and
-generating a summary report including all of their scores. Scores are calculated from the
-average score between Performance, PWA, Accessibility and Best Practice and SEO sections.
+Supports executing
+[Lighthouse](https://developers.google.com/web/tools/lighthouse) analysis over a
+number of sites in sequence and generating a summary report including all of
+their scores. Scores are calculated from the average score between Performance,
+PWA, Accessibility and Best Practice and SEO sections.
 
-Also writes out the full `json` report for each site and optionally an `html` report too.
+Also writes out the full `json` report for each site and optionally an `html`
+report too.
 
 ## CLI
 
@@ -20,7 +23,7 @@ This will generate the following files under the `/report/lighthouse` folder.
 
     airhorner_com.report.json // Full results for airhorner.com
     housing_com.report.json   // Full results from housing.com
-    summary.json              // Summary of results with scores out of 100  
+    summary.json              // Summary of results with scores out of 100
 
 If you also want html reports include the `--html` option.
 
@@ -41,3 +44,9 @@ All options
       -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
       -g, --use-global       use a global lighthouse install instead of the dependency version
       -v, --verbose          enable verbose logging
+
+## Notes
+
+- Chrome is run with the following flags to support the widest set of execution
+  environments, including docker containers
+  `--chrome-flags="--no-sandbox --headless --disable-gpu"`.
