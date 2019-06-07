@@ -14,7 +14,7 @@ module.exports = execute;
 function execute(options) {
   const out = options.out || OUT
   const lhc = lighthouseCmd(options)
-  const summaryPath = `${out}/${REPORT_SUMMARY}`
+  const summaryPath = path.join(out, REPORT_SUMMARY)
 
   log = log.bind(log, options.verbose || false)
 
@@ -27,7 +27,7 @@ function execute(options) {
   const reports = sitesInfo(options).map((site, i) => {
     const prefix = `${i + 1}/${count}: `
     const htmlOut = options.html ? ' --output html' : ''
-    const filePath = `${out}/${site.file}`
+    const filePath = path.join(out, site.file)
     // if gen'ing html+json reports, ext '.report.json' is added by lighthouse cli automatically,
     // so here we try and keep the file names consistent by stripping to avoid duplication
     const outputPath = options.html ? filePath.slice(0, -JSON_EXT.length) : filePath
