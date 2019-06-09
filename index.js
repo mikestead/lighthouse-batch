@@ -12,11 +12,11 @@ execute.OUT = OUT
 module.exports = execute;
 
 function execute(options) {
-  const out = options.out || OUT
-  const lhc = lighthouseCmd(options)
-  const summaryPath = path.join(out, REPORT_SUMMARY)
-
   log = log.bind(log, options.verbose || false)
+
+  const out = options.out || OUT
+  const lhScript = lighthouseScript(options, log)
+  const summaryPath = path.join(out, REPORT_SUMMARY)
 
   rm('-rf', out)
   mkdir('-p', out)
@@ -28,14 +28,16 @@ function execute(options) {
     const prefix = `${i + 1}/${count}: `
     const htmlOut = options.html ? ' --output html' : ''
     const filePath = path.join(out, site.file)
+    const customParams = options.params || ''
+    const chromeFlags = customParams.indexOf('--chrome-flags=') === -1 ? `--chrome-flags="--no-sandbox --headless --disable-gpu"` : ''
     // if gen'ing html+json reports, ext '.report.json' is added by lighthouse cli automatically,
     // so here we try and keep the file names consistent by stripping to avoid duplication
     const outputPath = options.html ? filePath.slice(0, -JSON_EXT.length) : filePath
-    const cmd = `"${site.url}" --output json${htmlOut} --output-path "${outputPath}" ${options.params}`
+    const cmd = `"${site.url}" --output json${htmlOut} --output-path "${outputPath}" ${chromeFlags} ${customParams}`
 
     log(`${prefix}Lighthouse analyzing '${site.url}'`)
     log(cmd)
-    const outcome = exec(`${lhc} ${cmd}`)
+    const outcome = exec(`${lhScript} ${cmd}`)
     const summary = updateSummary(filePath, site, outcome, options)
 
     if (summary.error) console.warn(`${prefix}Lighthouse analysis FAILED for ${summary.url}`)
@@ -67,10 +69,11 @@ function sitesInfo(options) {
   })
 }
 
-function lighthouseCmd(options) {
+function lighthouseScript(options, log) {
   if (options.useGlobal) {
     if (exec('lighthouse --version').code === 0) {
-      return 'lighthouse '
+      log('Targeting global install of Lighthouse cli')
+      return 'lighthouse'
     } else {
       console.warn('Global Lighthouse install not found, falling back to local one')
     }
@@ -83,7 +86,8 @@ function lighthouseCmd(options) {
       process.exit(1)
     }
   }
-  return `node ${cliPath} --chrome-flags="--no-sandbox --headless --disable-gpu"`
+  log(`Targeting local Lighthouse cli at '${cliPath}'`)
+  return `node ${cliPath}`
 }
 
 function siteName(site) {
