@@ -97,8 +97,10 @@ function updateSummary(filePath, summary, outcome, options) {
     return summary
   }
   const report = JSON.parse(fs.readFileSync(filePath))
-  summary.score = getAverageScore(report)
-  return summary
+  return {
+    ...summary,
+    ...getAverageScore(report)
+  }
 }
 
 function getAverageScore(report) {
@@ -106,8 +108,16 @@ function getAverageScore(report) {
   if (report.categories) { // lighthouse v3
     categories = Object.values(report.categories)
   }
-  const total = categories.reduce((sum, cat) => sum + cat.score, 0)
-  return (total / categories.length).toFixed(2)
+  let total = 0
+  const detail = categories.reduce((acc, cat) => {
+    if (cat.id) acc[cat.id] = cat.score
+    total += cat.score
+    return acc
+  }, {})
+  return {
+    score: (total / categories.length).toFixed(2),
+    detail
+  }
 }
 
 function log(v, msg) {
