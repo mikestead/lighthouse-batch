@@ -6,11 +6,14 @@
   "bin": {
     "lighthouse-batch": "run.js"
   },
+  "engines": {
+    "node": ">=10.13"
+  },
   "author": "Massive",
   "license": "MIT",
   "dependencies": {
     "commander": "^2.9.0",
-    "lighthouse": "^4.2.0",
+    "lighthouse": "^5.1.0",
     "shelljs": "^0.7.6"
   }
 }
