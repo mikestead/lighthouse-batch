@@ -80,7 +80,6 @@ All options
 
     Options:
 
-        -V, --version          output the version number
         -s, --sites [sites]    a comma delimited list of site urls to analyze with Lighthouse (default: )
         -f, --file [path]      an input file with a site url per-line to analyze with Lighthouse (default: null)
         -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet" (default: null)
@@ -88,7 +87,7 @@ All options
         -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
         -g, --use-global       use a global lighthouse install instead of the dependency version
         -v, --verbose          enable verbose logging
-        -h, --help             output usage information
+        --help                 output usage information
 
 ## Notes
 
