@@ -80,9 +80,9 @@ All options
 
     Options:
 
-        -s, --sites [sites]    a comma delimited list of site urls to analyze with Lighthouse (default: )
-        -f, --file [path]      an input file with a site url per-line to analyze with Lighthouse (default: null)
-        -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet" (default: null)
+        -s, --sites [sites]    a comma delimited list of site urls to analyze with Lighthouse
+        -f, --file [path]      an input file with a site url per-line to analyze with Lighthouse
+        -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
         -h, --html             generate an html report alongside the json report
         -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
         -g, --use-global       use a global lighthouse install instead of the dependency version
