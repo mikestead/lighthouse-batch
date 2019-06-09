@@ -52,7 +52,20 @@ function execute(options) {
 }
 
 function sitesInfo(options) {
-  return options.sites.map(url => {
+  let sites = []
+  if (options.file) {
+    try {
+      const contents = fs.readFileSync(options.file, 'utf8')
+      sites = contents.trim().split('\n')
+    } catch (e) {
+      console.error(`Failed to read file ${options.file}, aborting.\n`, e)
+      process.exit(1)
+    }
+  }
+  if (options.sites) {
+    sites = sites.concat(options.sites)
+  }
+  return sites.map(url => {
     url = url.trim()
     if (!url.match(/^https?:/)) {
       if (!url.startsWith('//')) url = `//${url}`

@@ -63,20 +63,32 @@ If you also want html reports include the `--html` option.
     housing_com.report.html   // Full html results for housing.com
     www_bbc_com.report.html   // Full html results for bbc.com
 
+There's also the option to read site urls from a text file, one per line.
+
+    lighthouse-batch -f sites.txt
+
+sites.txt
+
+```text
+https://www.bbc.com
+https://housing.com
+```
+
 All options
 
     lighthouse-batch [options]
 
     Options:
 
-      -h, --help             output usage information
-      -V, --version          output the version number
-      -s, --sites <sites>    a comma delimited list of site urls to analyze with Lighthouse
-      -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
-      -h, --html             generate an html report alongside the json report
-      -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
-      -g, --use-global       use a global lighthouse install instead of the dependency version
-      -v, --verbose          enable verbose logging
+        -V, --version          output the version number
+        -s, --sites [sites]    a comma delimited list of site urls to analyze with Lighthouse (default: )
+        -f, --file [path]      an input file with a site url per-line to analyze with Lighthouse (default: null)
+        -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet" (default: null)
+        -h, --html             generate an html report alongside the json report
+        -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
+        -g, --use-global       use a global lighthouse install instead of the dependency version
+        -v, --verbose          enable verbose logging
+        -h, --help             output usage information
 
 ## Notes
 
