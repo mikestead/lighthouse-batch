@@ -97,4 +97,4 @@ All options
   `--chrome-flags="--no-sandbox --headless --disable-gpu"`. You can replace
   these with your own by passing `--chrome-flags` as extra parameters. e.g.
 
-  `--params "--chrome-flags=\"--no-sandbox --disable-gpu\""
+  `--params "--chrome-flags=\"--no-sandbox --disable-gpu\""`
