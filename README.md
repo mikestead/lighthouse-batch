@@ -9,7 +9,8 @@ PWA, Accessibility and Best Practice and SEO sections.
 Also writes out the full `json` report for each site and optionally an `html`
 report too.
 
-> Note that Lighthouse Batch v5+ requires Node v10.13+. This is a requirement
+
+> Lighthouse Batch v5+ requires Node v10.13+. This is a requirement
 > from the dependency on Lighthouse v5+.
 
 ## CLI
