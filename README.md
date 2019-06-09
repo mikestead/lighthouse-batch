@@ -17,18 +17,51 @@ Install globally
 
 Example usage
 
-    lighthouse-batch -s https://airhorner.com,https://housing.com
+    lighthouse-batch -s https://www.bbc.com,https://housing.com
 
 This will generate the following files under the `/report/lighthouse` folder.
 
-    airhorner_com.report.json // Full results for airhorner.com
+    www_bbc_com.report.json   // Full results for bbc.com
     housing_com.report.json   // Full results from housing.com
     summary.json              // Summary of results with scores out of 100
 
+Example `summary.json`
+
+```json
+[
+  {
+    "url": "https://www.bbc.com",
+    "name": "www_bbc_com",
+    "file": "www_bbc_com.report.json",
+    "score": "0.64",
+    "detail": {
+      "performance": 0.36,
+      "accessibility": 0.87,
+      "best-practices": 0.71,
+      "seo": 0.96,
+      "pwa": 0.31
+    }
+  },
+  {
+    "url": "https://housing.com",
+    "name": "housing_com",
+    "file": "housing_com.report.json",
+    "score": "0.71",
+    "detail": {
+      "performance": 0.42,
+      "accessibility": 0.78,
+      "best-practices": 0.93,
+      "seo": 0.97,
+      "pwa": 0.46
+    }
+  }
+]
+```
+
 If you also want html reports include the `--html` option.
 
-    airhorner_com.report.html // Full html results for airhorner.com
-    housing_com.report.html   // Full html results for airhorner.com
+    housing_com.report.html   // Full html results for housing.com
+    www_bbc_com.report.html   // Full html results for bbc.com
 
 All options
 
@@ -39,7 +72,7 @@ All options
       -h, --help             output usage information
       -V, --version          output the version number
       -s, --sites <sites>    a comma delimited list of site urls to analyze with Lighthouse
-      -p, --params <params>  extra paramaters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
+      -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
       -h, --html             generate an html report alongside the json report
       -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
       -g, --use-global       use a global lighthouse install instead of the dependency version
@@ -49,4 +82,7 @@ All options
 
 - Chrome is run with the following flags to support the widest set of execution
   environments, including docker containers
-  `--chrome-flags="--no-sandbox --headless --disable-gpu"`.
+  `--chrome-flags="--no-sandbox --headless --disable-gpu"`. You can replace
+  these with your own by passing `--chrome-flags` as extra parameters. e.g.
+
+  `--params "--chrome-flags=\"--no-sandbox --disable-gpu\""
