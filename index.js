@@ -2,7 +2,6 @@
 require('shelljs/global');
 const fs = require('fs')
 const path = require('path')
-const uuid = require('short-uuid')
 
 const OUT = './report/lighthouse'
 const REPORT_SUMMARY = 'summary.json'
@@ -66,18 +65,17 @@ function sitesInfo(options) {
   if (options.sites) {
     sites = sites.concat(options.sites)
   }
-  return sites.map(url => {
+  return sites.map((url, i) => {
     url = url.trim()
     if (!url.match(/^https?:/)) {
       if (!url.startsWith('//')) url = `//${url}`
       url = `https:${url}`
     }
     const name = siteName(url)
-    const shortUuid = uuid.generate()
     const info = {
       url,
       name,
-      file: `${name}${shortUuid}${JSON_EXT}`
+      file: `url_${i}${JSON_EXT}`
     }
     if (options.html) info.html = `${name}${HTML_EXT}`
     return info
