@@ -18,7 +18,17 @@ function execute(options) {
   const lhScript = lighthouseScript(options, log)
   const summaryPath = path.join(out, REPORT_SUMMARY)
 
-  rm('-rf', out)
+  try {
+    const files = fs.readdirSync(out)
+    files.forEach(f => {
+      if (f.endsWith(JSON_EXT) || f.endsWith(HTML_EXT) || f == REPORT_SUMMARY) {
+        const oldFile = path.join(out, f)
+        log(`Removing old report file: ${oldFile}`)
+        rm('-f', oldFile)
+      }
+    })
+  } catch(e) {}
+
   mkdir('-p', out)
 
   const count = options.sites.length
