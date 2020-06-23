@@ -53,12 +53,21 @@ function execute(options) {
     if (summary.error) console.warn(`${prefix}Lighthouse analysis FAILED for ${summary.url}`)
     else log(`${prefix}Lighthouse analysis of '${summary.url}' complete with score ${summary.score}`)
 
+    if (options.report === false) {
+      log(`Removing generated report file '${filePath}'`)
+      rm(filePath)
+    }
+
     return summary
   })
 
-  log(`Lighthouse batch run end`)
-  log(`Writing reports summary to ${summaryPath}`)
+  console.log(`Lighthouse batch run end`)
+  console.log(`Writing reports summary to ${summaryPath}`)
+
   fs.writeFileSync(summaryPath, JSON.stringify(reports), 'utf8')
+  if (options.print) {
+    console.log(JSON.stringify(reports, null, 2))
+  }
 }
 
 function sitesInfo(options) {
