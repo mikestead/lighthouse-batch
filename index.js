@@ -85,13 +85,25 @@ function sitesInfo(options) {
   if (options.sites) {
     sites = sites.concat(options.sites)
   }
+  const existingNames = {}
   return sites.map(url => {
     url = url.trim()
     if (!url.match(/^https?:/)) {
       if (!url.startsWith('//')) url = `//${url}`
       url = `https:${url}`
     }
-    const name = siteName(url)
+    const origName = siteName(url)
+    let name = origName
+
+    // if the same page is being tested multiple times then
+    // give each one an incremented name to avoid collisions
+    let j = 1
+    while (existingNames[name]) {
+      name = `${origName}_${j}`
+      j++
+    }
+    existingNames[name] = true
+
     const info = {
       url,
       name,
