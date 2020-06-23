@@ -66,6 +66,7 @@ function execute(options) {
 
   fs.writeFileSync(summaryPath, JSON.stringify(reports), 'utf8')
   if (options.print) {
+    console.log(`Printing reports summary`)
     console.log(JSON.stringify(reports, null, 2))
   }
 }
