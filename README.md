@@ -91,7 +91,7 @@ All options
         -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
         -g, --use-global       use a global lighthouse install instead of the dependency version
         -v, --verbose          enable verbose logging
-        --no-report            remove individual reports for each site
+        --no-report            remove individual json reports for each site
         --print                print the final summary to stdout
         --help                 output usage information
 

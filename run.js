@@ -13,7 +13,7 @@ program
   .option('-o, --out [out]', `the output folder to place reports, defaults to '${execute.OUT}'`)
   .option('-g, --use-global', 'use a global lighthouse install instead of the dependency version')
   .option('-v, --verbose', 'enable verbose logging')
-  .option('--no-report', 'remove individual reports for each site')
+  .option('--no-report', 'remove individual json reports for each site')
   .option('--print', 'print the final summary to stdout')
   .parse(process.argv)
 
