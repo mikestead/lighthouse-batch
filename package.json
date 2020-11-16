@@ -1,24 +1,24 @@
 {
-  "name": "lighthouse-batch",
-  "version": "6.0.0",
-  "description": "Generate lighthouse reports for one or more websites",
-  "main": "index.js",
-  "bin": {
-    "lighthouse-batch": "run.js"
-  },
-  "engines": {
-    "node": ">=10.13"
-  },
-  "author": "Massive",
-  "license": "MIT",
-  "homepage": "https://github.com/mikestead/lighthouse-batch",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mikestead/lighthouse-batch.git"
-  },
-  "dependencies": {
-    "commander": "^2.9.0",
-    "lighthouse": "^6.0.0",
-    "shelljs": "^0.8.4"
-  }
+    "name": "lighthouse-batch",
+    "version": "6.4.1",
+    "description": "Generate lighthouse reports for one or more websites",
+    "main": "index.js",
+    "bin": {
+        "lighthouse-batch": "run.js"
+    },
+    "engines": {
+        "node": ">=10.13"
+    },
+    "author": "Massive",
+    "license": "MIT",
+    "homepage": "https://github.com/mikestead/lighthouse-batch",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mikestead/lighthouse-batch.git"
+    },
+    "dependencies": {
+        "commander": "^2.9.0",
+        "lighthouse": "^6.4.1",
+        "shelljs": "^0.8.4"
+    }
 }
