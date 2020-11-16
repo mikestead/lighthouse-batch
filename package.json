@@ -9,7 +9,7 @@
   "engines": {
     "node": ">=10.13"
   },
-  "author": "Massive",
+  "author": "Mike Stead",
   "license": "MIT",
   "homepage": "https://github.com/mikestead/lighthouse-batch",
   "repository": {
