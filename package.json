@@ -1,13 +1,13 @@
 {
   "name": "lighthouse-batch",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "description": "Generate lighthouse reports for one or more websites",
   "main": "index.js",
   "bin": {
     "lighthouse-batch": "run.js"
   },
   "engines": {
-    "node": ">=10.13"
+    "node": ">=12.13"
   },
   "author": "Mike Stead",
   "license": "MIT",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "lighthouse": "^6.4.1",
+    "lighthouse": "^7.0.1",
     "shelljs": "^0.8.4"
   }
 }
