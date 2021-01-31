@@ -89,7 +89,7 @@ function execute(options) {
     console.log(JSON.stringify(reports, null, 2))
   }
 
-  if (budgetErrors) {
+  if (budgetErrors.length) {
     console.error(`Error: failed to meet budget threshold${budgetErrors.length > 1 ? 's' : ''}`)
     for (let err of budgetErrors) {
       console.error(` - ${err}`)
@@ -212,6 +212,13 @@ function checkBudgets(summary, options) {
     const score = toScore(summary.detail.accessibility)
     if (score < options.accessibility) {
       errors.push(`accessibility score ${score} < ${options.accessibility} for ${summary.url}`)
+    }
+  }
+
+  if (options.performance > 0) {
+    const score = toScore(summary.detail.performance)
+    if (score < options.performance) {
+      errors.push(`performance score ${score} < ${options.performance} for ${summary.url}`)
     }
   }
 

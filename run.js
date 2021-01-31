@@ -14,6 +14,7 @@ program
   .option('-o, --out [out]', `the output folder to place reports, defaults to '${execute.OUT}'`)
   .option('--score <threshold>', `average score for each site to meet (1-100)`, Number)
   .option('--accessibility <threshold>', `accessibility score for each site to meet (1-100)`, Number)
+  .option('--performance <threshold>', `performance score for each site to meet (1-100)`, Number)
   .option('--best-practices <threshold>', `best practice score for each site to meet (1-100)`, Number)
   .option('--seo <threshold>', `seo score for each site to meet (1-100)`, Number)
   .option('--pwa <threshold>', `pwa score for each site to meet (1-100)`, Number)
