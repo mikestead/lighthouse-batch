@@ -72,7 +72,7 @@ Or add the `--csv` option for csv reports.
     housing_com.report.csv
     www_bbc_com.report.csv
 
-You can specify budget thresholds for primary metrics. If any are exceeded the run will fail.
+You can specify budget thresholds for primary metrics. If any are not met the run will fail.
 
     lighthouse-batch -s https://web.dev \
         --score 92 \
