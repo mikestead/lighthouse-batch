@@ -15,12 +15,13 @@ report too.
 
 ## CLI
 
-Install globally
-
-    npm install lighthouse-batch -g
-
 Example usage
 
+    npx lighthouse-batch -s https://www.bbc.com,https://housing.com
+
+or install globally before use
+
+    npm install lighthouse-batch -g
     lighthouse-batch -s https://www.bbc.com,https://housing.com
 
 This will generate the following files under the `/report/lighthouse` folder.
@@ -62,7 +63,18 @@ Example `summary.json`
 ]
 ```
 
-If you also want html reports include the `--html` option.
+There's the option to read site urls from a text file, one per line.
+
+    lighthouse-batch -f sites.txt
+
+sites.txt
+
+```text
+https://www.bbc.com
+https://housing.com
+```
+
+If you want html reports include the `--html` option.
 
     housing_com.report.html
     www_bbc_com.report.html
@@ -85,18 +97,7 @@ You can specify budget thresholds for primary metrics. If any are not met the ru
 The `--fail-fast` option will error as soon as a budget is exceeded 
 and skip pending sites.
 
-There's also the option to read site urls from a text file, one per line.
-
-    lighthouse-batch -f sites.txt
-
-sites.txt
-
-```text
-https://www.bbc.com
-https://housing.com
-```
-
-All options
+#### All options
 
 ```console
 lighthouse-batch [options]
