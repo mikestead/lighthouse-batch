@@ -10,6 +10,7 @@ program
   .option('-f, --file [path]', 'an input file with a site url per-line to analyze with Lighthouse')
   .option('-p, --params <params>', 'extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"')
   .option('-h, --html', 'generate an html report alongside the json report')
+  .option('--csv', 'generate a csv report alongside the json report')
   .option('-o, --out [out]', `the output folder to place reports, defaults to '${execute.OUT}'`)
   .option('-g, --use-global', 'use a global lighthouse install instead of the dependency version')
   .option('-v, --verbose', 'enable verbose logging')

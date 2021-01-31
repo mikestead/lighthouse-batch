@@ -6,6 +6,7 @@ const path = require('path')
 const OUT = './report/lighthouse'
 const REPORT_SUMMARY = 'summary.json'
 const JSON_EXT = '.report.json'
+const CSV_EXT = '.report.csv'
 const HTML_EXT = '.report.html'
 
 execute.OUT = OUT
@@ -21,7 +22,7 @@ function execute(options) {
   try {
     const files = fs.readdirSync(out)
     files.forEach(f => {
-      if (f.endsWith(JSON_EXT) || f.endsWith(HTML_EXT) || f == REPORT_SUMMARY) {
+      if (f.endsWith(JSON_EXT) || f.endsWith(HTML_EXT) || f.endsWith(CSV_EXT) || f == REPORT_SUMMARY) {
         const oldFile = path.join(out, f)
         log(`Removing old report file: ${oldFile}`)
         rm('-f', oldFile)
@@ -37,13 +38,14 @@ function execute(options) {
   const reports = sitesInfo(options).map((site, i) => {
     const prefix = `${i + 1}/${count}: `
     const htmlOut = options.html ? ' --output html' : ''
+    const csvOut = options.csv ? ' --output csv' : ''
     const filePath = path.join(out, site.file)
     const customParams = options.params || ''
     const chromeFlags = customParams.indexOf('--chrome-flags=') === -1 ? `--chrome-flags="--no-sandbox --headless --disable-gpu"` : ''
-    // if gen'ing html+json reports, ext '.report.json' is added by lighthouse cli automatically,
+    // if gen'ing (html|csv)+json reports, ext '.report.json' is added by lighthouse cli automatically,
     // so here we try and keep the file names consistent by stripping to avoid duplication
-    const outputPath = options.html ? filePath.slice(0, -JSON_EXT.length) : filePath
-    const cmd = `"${site.url}" --output json${htmlOut} --output-path "${outputPath}" ${chromeFlags} ${customParams}`
+    const outputPath = (options.html || options.csv) ? filePath.slice(0, -JSON_EXT.length) : filePath
+    const cmd = `"${site.url}" --output json${htmlOut+csvOut} --output-path "${outputPath}" ${chromeFlags} ${customParams}`
 
     log(`${prefix}Lighthouse analyzing '${site.url}'`)
     log(cmd)
