@@ -64,8 +64,13 @@ Example `summary.json`
 
 If you also want html reports include the `--html` option.
 
-    housing_com.report.html   // Full html results for housing.com
-    www_bbc_com.report.html   // Full html results for bbc.com
+    housing_com.report.html
+    www_bbc_com.report.html
+
+Or add the `--csv` option for csv reports.
+
+    housing_com.report.csv
+    www_bbc_com.report.csv
 
 There's also the option to read site urls from a text file, one per line.
 
