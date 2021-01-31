@@ -24,7 +24,7 @@ or install globally before use
     npm install lighthouse-batch -g
     lighthouse-batch -s https://www.bbc.com,https://housing.com
 
-This will generate the following files under the `/report/lighthouse` folder.
+This will generate the following files under the `./report/lighthouse` folder.
 
     www_bbc_com.report.json   // Full results for bbc.com
     housing_com.report.json   // Full results from housing.com
@@ -67,7 +67,7 @@ There's the option to read site urls from a text file, one per line.
 
     lighthouse-batch -f sites.txt
 
-sites.txt
+Example `sites.txt`:
 
 ```text
 https://www.bbc.com
@@ -94,7 +94,7 @@ You can specify budget thresholds for primary metrics. If any are not met the ru
         --accessibility 100 \
         --fail-fast
 
-The `--fail-fast` option will error as soon as a budget is exceeded 
+The `--fail-fast` option will error as soon as a budget is not met 
 and skip pending sites.
 
 #### All options
