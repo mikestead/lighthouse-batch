@@ -72,6 +72,19 @@ Or add the `--csv` option for csv reports.
     housing_com.report.csv
     www_bbc_com.report.csv
 
+You can specify budget thresholds for primary metrics. If any are exceeded the run will fail.
+
+    lighthouse-batch -s https://web.dev \
+        --score 92 \
+        --seo 95 \
+        --pwa 85 \
+        --best-practices 90 \
+        --accessibility 100 \
+        --fail-fast
+
+The `--fail-fast` option will error as soon as a budget is exceeded 
+and skip pending sites.
+
 There's also the option to read site urls from a text file, one per line.
 
     lighthouse-batch -f sites.txt
@@ -85,21 +98,29 @@ https://housing.com
 
 All options
 
-    lighthouse-batch [options]
+```console
+lighthouse-batch [options]
 
-    Options:
-
-        -s, --sites [sites]    a comma delimited list of site urls to analyze with Lighthouse
-        -f, --file [path]      an input file with a site url per-line to analyze with Lighthouse
-        -p, --params <params>  extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
-        -h, --html             generate an html report alongside the json report
-        --csv                  generate a csv report alongside the json report
-        -o, --out [out]        the output folder to place reports, defaults to './report/lighthouse'
-        -g, --use-global       use a global lighthouse install instead of the dependency version
-        -v, --verbose          enable verbose logging
-        --no-report            remove individual json reports for each site
-        --print                print the final summary to stdout
-        --help                 output usage information
+Options:
+  -V, --version                 output the version number
+  -s, --sites [sites]           a comma delimited list of site urls to analyze with Lighthouse (default: [])
+  -f, --file [path]             an input file with a site url per-line to analyze with Lighthouse
+  -p, --params <params>         extra parameters to pass to lighthouse cli for each execution e.g. -p "--perf --quiet"
+  -h, --html                    generate an html report alongside the json report
+  --csv                         generate a csv report alongside the json report
+  -o, --out [out]               the output folder to place reports, defaults to './report/lighthouse'
+  --score <threshold>           average score for each site to meet (1-100)
+  --accessibility <threshold>   accessibility score for each site to meet (1-100)
+  --best-practices <threshold>  best practices score for each site to meet (1-100)
+  --seo <threshold>             seo score for each site to meet (1-100)
+  --pwa <threshold>             pwa score for each site to meet (1-100)
+  --fail-fast                   fail as soon as a budget threshold is not met
+  -g, --use-global              use a global lighthouse install instead of the dependency version
+  -v, --verbose                 enable verbose logging
+  --no-report                   remove individual json reports for each site
+  --print                       print the final summary to stdout
+  -h, --help                    output usage information
+```
 
 ## Notes
 
