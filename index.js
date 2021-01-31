@@ -112,6 +112,7 @@ function sitesInfo(options) {
       file: `${name}${JSON_EXT}`
     }
     if (options.html) info.html = `${name}${HTML_EXT}`
+    if (options.csv) info.csv = `${name}${CSV_EXT}`
     return info
   })
 }
