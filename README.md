@@ -120,7 +120,7 @@ Options:
   -v, --verbose                 enable verbose logging
   --no-report                   remove individual json reports for each site
   --print                       print the final summary to stdout
-  -h, --help                    output usage information
+  --help                    output usage information
 ```
 
 ## Notes
