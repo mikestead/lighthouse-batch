@@ -90,7 +90,7 @@ function execute(options) {
   }
 
   if (budgetErrors.length) {
-    console.error(`Error: failed to meet budget threshold${budgetErrors.length > 1 ? 's' : ''}`)
+    console.error(`Error: failed to meet budget thresholds`)
     for (let err of budgetErrors) {
       console.error(` - ${err}`)
     }
