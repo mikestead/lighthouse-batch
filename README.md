@@ -10,8 +10,8 @@ Also writes out the full `json` report for each site and optionally an `html`
 report too.
 
 
-> Lighthouse Batch v5+ requires Node v10.13+. This is a requirement
-> from the dependency on Lighthouse v5+.
+> Lighthouse Batch v7+ requires Node v12+. This is a requirement
+> from the dependency on Lighthouse v7+.
 
 ## CLI
 
