@@ -32,10 +32,14 @@ function execute(options) {
 
   mkdir('-p', out)
 
+  let budgetErrors = []
   const count = options.sites.length
   log(`Lighthouse batch run begin for ${count} site${count > 1 ? 's' : ''}`)
 
   const reports = sitesInfo(options).map((site, i) => {
+    if (budgetErrors.length && options.failFast) {
+      return undefined
+    }
     const prefix = `${i + 1}/${count}: `
     const htmlOut = options.html ? ' --output html' : ''
     const csvOut = options.csv ? ' --output csv' : ''
@@ -60,8 +64,21 @@ function execute(options) {
       rm(filePath)
     }
 
+    const errors = checkBudgets(summary, options)
+    if (errors) {
+      const other = summary.errors
+      summary.errors = {
+        budget: errors
+      }
+      if (other) {
+        summary.errors.other = other
+      }
+      budgetErrors = budgetErrors.concat(errors)
+    }
+
     return summary
   })
+  .filter(summary => !!summary)
 
   console.log(`Lighthouse batch run end`)
   console.log(`Writing reports summary to ${summaryPath}`)
@@ -70,6 +87,15 @@ function execute(options) {
   if (options.print) {
     console.log(`Printing reports summary`)
     console.log(JSON.stringify(reports, null, 2))
+  }
+
+  if (budgetErrors.length) {
+    console.error(`Error: failed to meet budget thresholds`)
+    for (let err of budgetErrors) {
+      console.error(` - ${err}`)
+    }
+    log('Exiting with code 1')
+    process.exit(1)
   }
 }
 
@@ -81,6 +107,7 @@ function sitesInfo(options) {
       sites = contents.trim().split('\n')
     } catch (e) {
       console.error(`Failed to read file ${options.file}, aborting.\n`, e)
+      log('Exiting with code 1')
       process.exit(1)
     }
   }
@@ -167,11 +194,62 @@ function getAverageScore(report) {
     return acc
   }, {})
   return {
-    score: (total / categories.length).toFixed(2),
+    score: Number((total / categories.length).toFixed(2)),
     detail
   }
 }
 
+function checkBudgets(summary, options) {
+  const errors = []
+  if (options.score > 0) {
+    const score = toScore(summary.score)
+    if (score < options.score) {
+      errors.push(`average score ${score} < ${options.score} for ${summary.url}`)
+    }
+  }
+
+  if (options.accessibility > 0) {
+    const score = toScore(summary.detail.accessibility)
+    if (score < options.accessibility) {
+      errors.push(`accessibility score ${score} < ${options.accessibility} for ${summary.url}`)
+    }
+  }
+
+  if (options.performance > 0) {
+    const score = toScore(summary.detail.performance)
+    if (score < options.performance) {
+      errors.push(`performance score ${score} < ${options.performance} for ${summary.url}`)
+    }
+  }
+
+  if (options.bestPractices > 0) {
+    const score = toScore(summary.detail['best-practices'])
+    if (score < options.bestPractices) {
+      errors.push(`best practices score ${score} < ${options.bestPractices} for ${summary.url}`)
+    }
+  }
+
+  if (options.seo > 0) {
+    const score = toScore(summary.detail.seo)
+    if (score < options.seo) {
+      errors.push(`seo score ${score} < ${options.seo} for site ${summary.url}`)
+    }
+  }
+
+  if (options.pwa > 0) {
+    const score = toScore(summary.detail.pwa)
+    if (score < options.pwa) {
+      errors.push(`pwa score ${score} < ${options.pwa} for site ${summary.url}`)
+    }
+  }
+
+  return errors.length ? errors : undefined
+}
+
 function log(v, msg) {
   if (v) console.log(msg)
+}
+
+function toScore(score) {
+  return Number(score) * 100
 }
