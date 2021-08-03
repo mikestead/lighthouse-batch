@@ -2,7 +2,7 @@
 require("shelljs/global");
 const fs = require("fs");
 const path = require("path");
-
+const crypto = require("crypto");
 const OUT = "./report/lighthouse";
 const REPORT_SUMMARY = "summary.json";
 const JSON_EXT = ".report.json";
@@ -190,7 +190,22 @@ function lighthouseScript(options, log) {
 }
 
 function siteName(site) {
-  return site.replace(/^https?:\/\//, "").replace(/[\/\?#:\*\$@\!\.]/g, "_");
+  const maxLength = 100;
+  let name = site
+    .replace(/^https?:\/\//, "")
+    .replace(/[\/\?#:\*\$@\!\.]/g, "_");
+
+  if (name.length > maxLength) {
+    const hash = crypto
+      .createHash("sha1")
+      .update(name)
+      .digest("hex")
+      .slice(0, 7);
+
+    name = name.slice(0, maxLength).replace(/_+$/g, ""); // trim any `_` suffix
+    name = `${name}_${hash}`;
+  }
+  return name;
 }
 
 function updateSummary(filePath, summary, outcome, options) {
