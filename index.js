@@ -250,7 +250,7 @@ function checkBudgets(summary, options) {
     }
   }
 
-  if (options.accessibility > 0) {
+  if (options.accessibility > 0 && summary.detail) {
     const score = toScore(summary.detail.accessibility);
     if (score < options.accessibility) {
       errors.push(
@@ -259,7 +259,7 @@ function checkBudgets(summary, options) {
     }
   }
 
-  if (options.performance > 0) {
+  if (options.performance > 0 && summary.detail) {
     const score = toScore(summary.detail.performance);
     if (score < options.performance) {
       errors.push(
@@ -268,7 +268,7 @@ function checkBudgets(summary, options) {
     }
   }
 
-  if (options.bestPractices > 0) {
+  if (options.bestPractices > 0 && summary.detail) {
     const score = toScore(summary.detail["best-practices"]);
     if (score < options.bestPractices) {
       errors.push(
@@ -277,7 +277,7 @@ function checkBudgets(summary, options) {
     }
   }
 
-  if (options.seo > 0) {
+  if (options.seo > 0 && summary.detail) {
     const score = toScore(summary.detail.seo);
     if (score < options.seo) {
       errors.push(
@@ -286,7 +286,7 @@ function checkBudgets(summary, options) {
     }
   }
 
-  if (options.pwa > 0) {
+  if (options.pwa > 0 && summary.detail) {
     const score = toScore(summary.detail.pwa);
     if (score < options.pwa) {
       errors.push(
