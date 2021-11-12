@@ -27,6 +27,10 @@ program
     `the output folder to place reports, defaults to '${execute.OUT}'`
   )
   .option(
+    "--retain-url-directory",
+    "retain the path of url as sub-directories, instead of replace slash with underscore"
+  )
+  .option(
     "--score <threshold>",
     `average score for each site to meet (1-100)`,
     Number

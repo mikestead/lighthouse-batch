@@ -35,7 +35,7 @@ function execute(options) {
     });
   } catch (e) {}
 
-  mkdir("-p", out);
+  fs.mkdirSync(out, { recursive: true });
 
   let budgetErrors = [];
   const count = options.sites.length;
@@ -50,6 +50,8 @@ function execute(options) {
       const htmlOut = options.html ? " --output html" : "";
       const csvOut = options.csv ? " --output csv" : "";
       const filePath = path.join(out, site.file);
+      const parentFolder = path.dirname(filePath);
+      fs.mkdirSync(parentFolder, { recursive: true });
       const customParams = options.params || "";
       const chromeFlags =
         customParams.indexOf("--chrome-flags=") === -1
@@ -139,7 +141,7 @@ function sitesInfo(options) {
       if (!url.startsWith("//")) url = `//${url}`;
       url = `https:${url}`;
     }
-    const origName = siteName(url);
+    const origName = siteName(url, options);
     let name = origName;
 
     // if the same page is being tested multiple times then
@@ -189,23 +191,33 @@ function lighthouseScript(options, log) {
   return `node ${cliPath}`;
 }
 
-function siteName(site) {
-  const maxLength = 100;
-  let name = site
-    .replace(/^https?:\/\//, "")
-    .replace(/[\/\?#:\*\$@\!\.]/g, "_");
+function siteName(site, options) {
+  if (options.retainUrlDirectory) {
+    const fullName = (site.endsWith("/") ? site.slice(0, -1) : site)
+      .replace(/^https?:\/\//, "")
+      .replace(/[\?#:\*\$@\!\.]/g, "_");
+    let splittedName = fullName.split("/");
+    splittedName[splittedName.length - 1] = hashNameIfTooLong(
+      splittedName[splittedName.length - 1]
+    );
+    return splittedName.join("/");
+  } else {
+    let name = site
+      .replace(/^https?:\/\//, "")
+      .replace(/[\/\?#:\*\$@\!\.]/g, "_");
 
-  if (name.length > maxLength) {
-    const hash = crypto
-      .createHash("sha1")
-      .update(name)
-      .digest("hex")
-      .slice(0, 7);
-
-    name = name.slice(0, maxLength).replace(/_+$/g, ""); // trim any `_` suffix
-    name = `${name}_${hash}`;
+    return hashNameIfTooLong(name);
   }
-  return name;
+}
+
+function hashNameIfTooLong(name) {
+  const maxLength = 100;
+
+  if (name.length <= maxLength) return name;
+
+  const hash = crypto.createHash("sha1").update(name).digest("hex").slice(0, 7);
+  name = name.slice(0, maxLength).replace(/_+$/g, ""); // trim any `_` suffix
+  return `${name}_${hash}`;
 }
 
 function updateSummary(filePath, summary, outcome, options) {
