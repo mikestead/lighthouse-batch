@@ -186,7 +186,7 @@ function lighthouseScript(options, log) {
     }
   }
   log(`Targeting local Lighthouse cli at '${cliPath}'`);
-  return `node ${cliPath}`;
+  return `node "${cliPath}"`;
 }
 
 function siteName(site) {
