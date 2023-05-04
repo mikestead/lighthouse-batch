@@ -174,11 +174,11 @@ function lighthouseScript(options, log) {
     }
   }
   let cliPath = path.resolve(
-    `${__dirname}/node_modules/lighthouse/lighthouse-cli/index.js`
+    `${__dirname}/node_modules/lighthouse/cli/index.js`
   );
   if (!fs.existsSync(cliPath)) {
     cliPath = path.resolve(
-      `${__dirname}/../lighthouse/lighthouse-cli/index.js`
+      `${__dirname}/../lighthouse/cli/index.js`
     );
     if (!fs.existsSync(cliPath)) {
       console.error(`Failed to find Lighthouse CLI, aborting.`);
