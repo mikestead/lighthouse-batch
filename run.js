@@ -3,9 +3,10 @@
 
 const program = require("commander");
 const execute = require("./index");
+const packageJson = require("./package.json");
 
 program
-  .version(require("./package.json").version)
+  .version(packageJson.version)
   .option(
     "-s, --sites [sites]",
     "a comma delimited list of site urls to analyze with Lighthouse",
